@@ -8,6 +8,15 @@ start_time = "2021:01:05 10:00:00"
 
 start_time = time.mktime(time.strptime(start_time, "%Y:%m:%d %H:%M:%S"))
 
+def get_jd_server_time():
+    import json
+    import requests
+    url = 'https://a.jd.com//ajax/queryServerData.html'
+    localtime = time.time()
+    ret = requests.get(url).text
+    ret = json.loads(ret)
+    jd_time = float(ret['serverTime'])/1000
+    return jd_time,localtime #jd_time - localtime = 0.15s
 
 def seckill(login_url, login_name, login_passwd, item_url):
     driver = webdriver.Chrome()
